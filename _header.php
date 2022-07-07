@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="/img/favicon.png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <title>Cripei</title>
+    <title>Cripei .:. <?php echo $page_title ?></title>
 </head>
 
 <body>

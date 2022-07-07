@@ -1,3 +1,11 @@
+<?php
+
+// Título desta página:
+$page_title = 'Página modelo';
+
+require($_SERVER['DOCUMENT_ROOT'] . '/_header.php');
+
+?>
 
 <article>
 
@@ -22,3 +30,9 @@
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores placeat ullam blanditiis, inventore expedita earum non voluptate voluptatum.</p>
 
 </aside>
+
+<?php
+
+require($_SERVER['DOCUMENT_ROOT'] . '/_footer.php');
+
+?>
