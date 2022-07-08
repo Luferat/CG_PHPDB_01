@@ -4,7 +4,7 @@
 
     <div class="footer-top">
         <a href="/" title="Página inicial"><i class="fa-solid fa-house fa-fw"></i></a>
-        <div>&copy; 2022 Cripei</div>
+        <div>&copy; <?php echo date('Y') ?> <?php echo $site_name ?></div>
         <a href="#top" title="Topo da página"><i class="fa-solid fa-circle-up fa-fw"></i></a>
     </div>
 

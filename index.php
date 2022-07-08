@@ -1,21 +1,6 @@
 <?php
 
 /**
- * Página modelo → Instruções
- * 
- * Esta é a página modelo para todas as novas páginas deste site. Para criar
- * uma nova página neste site:
- *      1. Crie a pasta que conterá os componentes da nova página;
- *      2. Faça uma cópia deste arquivo "_model.php";
- *      2. Mova a copia para a pasta criada;
- *      3. Renomeie o arquivo copiado para "index.php";
- *      4. Adicione o arquivo "style.css" à pasta;
- *      5. Importe neste arquivo "style.css" o arquivo "/style.css";
- *      6. Adicione o arquivo "script.css";
- *      7. Apague este bloco de comentários.
- */
-
-/**
  * Inclui o arquivo de configuração global do aplicativo:
  */
 require($_SERVER['DOCUMENT_ROOT'] . '/_config.php');

@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="/img/favicon.png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <title>Cripei .:. <?php echo $page_title ?></title>
+    <title><?php echo $site_name ?> .:. <?php echo $page_title ?></title>
 </head>
 
 <body>
@@ -17,8 +17,8 @@
     <div class="wrap">
 
         <header>
-            <a href="/" title="Página inicial"><img src="/img/logo01.128.png" alt="Logotipo de Cripei"></a>
-            <h1>Cripei<small>Cripe e resolva!</small></h1>
+            <a href="/" title="Página inicial"><img src="<?php echo $site_logo ?>" alt="Logotipo de <?php echo $site_name ?>"></a>
+            <h1><?php echo $site_name ?><small><?php echo $site_slogan ?></small></h1>
         </header>
 
         <nav>

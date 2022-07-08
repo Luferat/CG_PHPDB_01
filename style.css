@@ -193,6 +193,7 @@ a:hover {
     border-bottom: 5px dotted purple;
     padding: 1rem;
     background: rgba(255, 255, 255, 0.8);
+    flex-grow: 1;
 }
 
 .wrap>main>article>h2:first-child,
