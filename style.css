@@ -249,3 +249,32 @@ a:hover {
     }
 
 }
+
+/* Estiliza index */
+.art_block {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    background-color: rgba(0,0,0,.1);
+}
+
+.art_block img {
+    display: block;
+    width: 80px;
+    height: 80px;
+    margin-right: 1rem;
+}
+
+.art_block h4 {
+    margin: 0;
+    margin-bottom: .5rem;
+}
+
+.art_block span {
+    font-size: 90%;
+}
+
+.art_block div {
+    padding: .5rem;
+}

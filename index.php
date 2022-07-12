@@ -38,7 +38,45 @@ $page_aside = '';
  * Todo o código PHP desta página começa aqui! *
  ***********************************************/
 
+// Obtém todos os artigos do site:
+$sql = <<<SQL
 
+SELECT 
+	art_id, art_title, art_thumb, art_intro
+FROM `articles`
+WHERE art_status = 'on'
+	AND art_date <= NOW()
+ORDER BY art_date DESC;
+
+SQL;
+
+// Executa a query:
+$res = $conn->query($sql);
+
+$page_article = <<<HTML
+
+<h2>Artigos Recentes</h2>
+
+HTML;
+
+// Loop que lista cada registro recebido:
+while( $art = $res->fetch_assoc() ):
+
+    $page_article .= <<<HTML
+
+<div class="art_block" onclick="location.href = '/view/?{$art['art_id']}'">
+
+    <img src="{$art['art_thumb']}" alt="{$art['art_title']}">
+    <div>
+        <h4>{$art['art_title']}</h4>
+        <span>{$art['art_intro']}</span>
+    </div>
+
+</div>
+
+HTML;    
+
+endwhile;
 
 /***********************************
  * Fim do código PHP desta página! *
