@@ -63,13 +63,17 @@ $art = $res->fetch_assoc();
  */
 require($_SERVER['DOCUMENT_ROOT'] . '/_header.php');
 
-?>
+/**
+ * Exibe o conteúdo da página:
+ */
 
-<article><?php echo $page_article ?></article>
+echo <<<HTML
 
-<aside><?php echo $page_aside ?></aside>
+<article>{$page_article}</article>
 
-<?php
+<aside>{$page_aside}</aside>
+
+HTML;
 
 /**
  * Inclui o rodapé do template nesta página.
