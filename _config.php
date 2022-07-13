@@ -28,25 +28,23 @@ $site_logo = "/img/logo01.128.png";
  * Conexão com o banco de dados *
  ********************************/
 
-/**
- * Variável com dados da conexão:
- * 
- *  Os dados abaixo são do XAMPP. Quando publicar o site,
- *  obtenha esses dados do painel de controles do serviço.
- **/
-$db = array(
-    "hostname" => "localhost",
-    "database" => "cripei",
-    "username" => "root",
-    "password" => ""
-);
+// Lê arquivo "ini" e converte em um array:
+$db = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/_config.ini', true);
 
-/**
- * Conexão com MySQL usando "mysqli" → POO:
- * 
- *  Ordem dos parâmetros → hostname, username, password, database
- **/
-$conn = new mysqli($db['hostname'], $db['username'], $db['password'], $db['database']);
+// Itera elementos de $db:
+// Referências: https://www.php.net/manual/pt_BR/control-structures.foreach.php
+foreach ($db as $server => $values) :
+
+    // Se estamos no servidor correto:
+    if ($server == $_SERVER['SERVER_NAME']) :
+
+        // Conecta no banco de dados com as credenciais deste servidor:
+        $conn = new mysqli($values['hostname'], $values['username'], $values['password'], $values['database']);
+
+        // Trata possíveis exceções
+        if ($conn->connect_error) die("Falha de conexão com o banco e dados: " . $conn->connect_error);
+    endif;
+endforeach;
 
 // Seta transações com MySQL/MariaDB para UTF-8:
 $conn->query("SET NAMES 'utf8'");

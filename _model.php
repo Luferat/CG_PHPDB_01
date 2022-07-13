@@ -3,15 +3,16 @@
 /**
  * Página modelo → Instruções
  * 
- * Esta é a página modelo para todas as novas páginas deste site. Para criar
- * uma nova página neste site:
+ * Esta é a página modelo para todas as novas páginas deste site. Para criar 
+ * uma nova página neste site, siga os passos abaixo:
  *      1. Crie a pasta que conterá os componentes da nova página;
- *      2. Faça uma cópia deste arquivo "_model.php";
- *      2. Mova a copia para a pasta criada;
- *      3. Renomeie o arquivo copiado para "index.php";
- *      4. Adicione o arquivo "style.css" à pasta;
- *      5. Importe neste arquivo "style.css" o arquivo "/style.css";
- *      6. Adicione o arquivo "script.css";
+ *      2. Faça uma cópia deste arquivo "/_model.php";
+ *      2. Mova a copia para a pasta criada no item 1;
+ *      3. Na pasta criada no item 1, renomeie o arquivo para "index.php";
+ *      4. Adicione um arquivo chamado "style.css" à pasta;
+ *      5. Importe neste arquivo "style.css" o arquivo "/style.css" global;
+ *          @import url('/style.css');
+ *      6. Adicione um arquivo "script.js";
  *      7. Apague este bloco de comentários.
  */
 
@@ -21,7 +22,7 @@
 require($_SERVER['DOCUMENT_ROOT'] . '/_config.php');
 
 /**
- * Define i título desta página:
+ * Define o título desta página:
  * 
  * A variável '$page_title' especifica o título da página, que aparece 
  * na tag <title>...</title>. Esta variável não pode ser vazia.
@@ -64,6 +65,9 @@ $page_aside = '';
  */
 require($_SERVER['DOCUMENT_ROOT'] . '/_header.php');
 
+/**
+ * Conteúdo da página:
+ */
 ?>
 
 <article><?php echo $page_article ?></article>

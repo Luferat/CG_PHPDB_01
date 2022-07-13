@@ -250,24 +250,30 @@ a:hover {
 
 }
 
-/* Estiliza index */
+/* Estiliza conteúdo da index */
+
 .art_block {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     cursor: pointer;
     margin-bottom: 1rem;
-    background-color: rgba(0,0,0,.1);
+    background-color: rgba(0, 0, 0, .1);
+}
+
+.art_block:hover {
+    background-color: rgba(0, 0, 0, .2);
 }
 
 .art_block img {
     display: block;
-    width: 80px;
-    height: 80px;
-    margin-right: 1rem;
+}
+
+.art_block div {
+    padding: .5rem;
 }
 
 .art_block h4 {
-    margin: 0;
+    margin-top: 0;
     margin-bottom: .5rem;
 }
 
@@ -275,6 +281,15 @@ a:hover {
     font-size: 90%;
 }
 
-.art_block div {
-    padding: .5rem;
+@media (min-width: 475px) {
+
+    .art_block {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .art_block img {
+        width: 90px;
+        height: 90px;
+    }
 }

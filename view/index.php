@@ -7,10 +7,8 @@ require($_SERVER['DOCUMENT_ROOT'] . '/_config.php');
 
 /**
  * Define o título desta página:
- * 
- *  → Na página inicial usaremos o 'slogan' do site.
  */
-$page_title = $site_slogan;
+$page_title = 'Artigo Completo';
 
 /**
  * Define o conteúdo principal desta página:
@@ -26,47 +24,35 @@ $page_aside = '';
  * Todo o código PHP desta página começa aqui! *
  ***********************************************/
 
-// Obtém todos os artigos do site:
+// Obtém o ID do artigo a ser visualizado, da URL da página:
+$id = intval($_SERVER['QUERY_STRING']);
+
+// Se o ID retornado é '0', redireciona para a página inicial:
+if ($id == 0) header('Location: /');
+
+// Cria a query para obter o artigo completo do banco de dados:
 $sql = <<<SQL
 
-SELECT 
-	art_id, art_title, art_thumb, art_intro
-FROM `articles`
-WHERE art_status = 'on'
-	AND art_date <= NOW()
-ORDER BY art_date DESC;
+SELECT *, DATE_FORMAT(art_date, '%d/%m/%Y às %H:%i') AS datebr FROM articles
+INNER JOIN users ON art_author = user_id
+WHERE art_id = '{$id}'
+	AND art_status = 'on'
+    AND art_date <= NOW();
 
 SQL;
 
-// Executa a query:
+// Executa a query e armazena em $res:
 $res = $conn->query($sql);
 
-// Formata conteúdo da página:
-$page_article = <<<HTML
+// Se não obteve um artigo com esses requisitos, volta para 'index':
+// O atributo 'num_rows' mostra quantos registro vieram do DB.
+if($res->num_rows != 1) header('Location: /');
 
-<h2>Artigos Recentes</h2>
+// Converte dados obtidos para array e armazena em $art:
+$art = $res->fetch_assoc();
 
-HTML;
+// Título do artigo como título da página:
 
-// Loop que obtém cada registro recebido do banco de dados:
-while ($art = $res->fetch_assoc()) :
-
-    // Inclui cada artigo no conteúdo da página:
-    $page_article .= <<<HTML
-
-<div class="art_block" onclick="location.href = '/view/?{$art['art_id']}'">
-
-    <img src="{$art['art_thumb']}" alt="{$art['art_title']}">
-    <div>
-        <h4>{$art['art_title']}</h4>
-        <span>{$art['art_intro']}</span>
-    </div>
-
-</div>
-
-HTML;
-
-endwhile;
 
 /***********************************
  * Fim do código PHP desta página! *
@@ -77,9 +63,6 @@ endwhile;
  */
 require($_SERVER['DOCUMENT_ROOT'] . '/_header.php');
 
-/**
- * Conteúdo da página:
- */
 ?>
 
 <article><?php echo $page_article ?></article>
