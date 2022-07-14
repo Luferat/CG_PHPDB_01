@@ -187,7 +187,10 @@ a:hover {
 }
 
 /* Main, Article e Aside */
-.wrap>main {}
+.wrap>main {
+    display: flex;
+    flex-direction: column;
+}
 
 .wrap>main>article {
     border-bottom: 5px dotted purple;
@@ -217,7 +220,7 @@ a:hover {
     /* Main, Article e Aside */
 
     .wrap>main {
-        display: flex;
+        flex-direction: row;
     }
 
     .wrap>main>article {
