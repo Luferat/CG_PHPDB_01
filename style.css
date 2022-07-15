@@ -211,7 +211,7 @@ a:hover {
 
 .wrap>main>aside {
     padding: 1rem;
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.7);
 }
 
 /* Telas maiores que 767px */
@@ -282,6 +282,16 @@ a:hover {
 
 .art_block span {
     font-size: 90%;
+}
+
+aside .u_list {
+    margin: 0;
+    padding: 0 0 0 .8rem;
+    font-size: 90%;
+}
+
+aside .u_list li {
+    margin-top: .5rem;
 }
 
 @media (min-width: 475px) {

@@ -70,6 +70,8 @@ $page_article = <<<HTML
 <small>{$author_date}</small>
 <div>{$art['art_content']}</div>
 
+<a id="comments"></a>
+
 HTML;
 
 /**
@@ -105,38 +107,51 @@ LIMIT 5;
 SQL;
 $res = $conn->query($sql);
 
+// Inicializa lista de artigos do autor:
 $author_arts = '';
 
+// Se o autor tem mais artigos...
 if ($res->num_rows > 0) :
 
-    $author_arts = '<h5>+ Artigos</h5><ul>';
+    // Prepara a listagem dos artigos:
+    $author_arts = '<h5 class="more-articles">+ Artigos</h5><ul>';
+
+    // Loop para obter cada artigo:
     while ($author_art = $res->fetch_assoc()) :
 
+        // Concatena na listagem:
         $author_arts .= <<<HTML
     <li><a href="/view/?{$author_art['art_id']}">{$author_art['art_title']}</a></li>
 HTML;
 
     endwhile;
 
+    // Fecha a listagem de artigos:
     $author_arts .= '</ul>';
 
 endif;
 
-
 // Formata barra lateral:
 $page_aside = <<<HTML
 
-<div class="autor">
+<div class="author">
 
     <img src="{$art['user_avatar']}" alt="{$art['user_name']}">
     <h4>{$art['user_name']}</h4>
-    <h5>{$age} anos</h5>
-    <div>{$art['user_bio']}</div>
+    <h5 class="age">{$age} anos</h5>
+    <p>{$art['user_bio']}</p>
     {$author_arts}
 
 </div>
 
 HTML;
+
+// Atualiza as visualizações deste artigo:
+$counter = intval($art['art_counter']) + 1;
+
+// Atualiza o contador no database:
+$sql = "UPDATE articles SET art_counter = '{$counter}' WHERE art_id = '{$id}';";
+$conn->query($sql);
 
 /***********************************
  * Fim do código PHP desta página! *

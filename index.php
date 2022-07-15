@@ -68,6 +68,66 @@ HTML;
 
 endwhile;
 
+// Obtém a lista dos artigos mais acessados:
+$sql = <<<SQL
+
+SELECT art_id, art_title 
+FROM `articles` 
+WHERE art_status = 'on' 
+	AND art_date <= NOW() 
+ORDER BY art_counter DESC 
+LIMIT 5;
+
+SQL;
+$res = $conn->query($sql);
+
+// Variável da barra lateral:
+$page_aside = '<h3>+ Visitados</h3><ul class="u_list">';
+
+// Loop para obter cada artigo:
+while ($top_art = $res->fetch_assoc()) :
+
+    // Concatena o artigo na listagem:
+    $page_aside .= <<<HTML
+
+<li><a href="/view/?{$top_art['art_id']}">{$top_art['art_title']}</a></li>
+
+HTML;
+
+endwhile;
+
+// Obtém os comentários mais recentes:
+$sql = <<<SQL
+
+SELECT cmt_article, cmt_content 
+FROM `comments` 
+WHERE cmt_status = 'on' 
+ORDER BY cmt_date 
+DESC LIMIT 5;
+
+SQL;
+$res = $conn->query($sql);
+
+// Variável da barra lateral:
+$page_aside .= '</ul><h4>Novos comentários</h4><ul class="u_list">';
+
+// Loop para obter cada comentário:
+while ($comments = $res->fetch_assoc()) :
+
+    // Cria um resumo do comentário:
+    $resume = substr($comments['cmt_content'], 0, 100) . '...';
+
+    $page_aside .= <<<HTML
+
+<li><a href="/view/?{$comments['cmt_article']}#comments">{$resume}</a></li>
+
+HTML;
+
+endwhile;
+
+// Fecha a listagem de comentários:
+$page_aside .= '</ul>';
+
 /***********************************
  * Fim do código PHP desta página! *
  ***********************************/
