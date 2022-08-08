@@ -1,1 +1,0 @@
-Lendo o cookie.
