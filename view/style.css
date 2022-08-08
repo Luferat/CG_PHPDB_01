@@ -1,0 +1,34 @@
+/* Importa as folhas de estilo globais */
+@import url('/style.css');
+
+aside .author img {
+    display: block;
+    margin: auto;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+}
+
+aside .author h4 {
+    margin: .25rem 0 0 0;
+    text-align: center;
+}
+
+.age {
+    margin: .25rem 0 0 0;
+    text-align: center;
+}
+
+.more-articles {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+aside .author ul {
+    margin: 0;
+    padding: 0 0 0 .8rem;
+}
+
+aside .author ul li {
+    line-height: 1.4;
+}

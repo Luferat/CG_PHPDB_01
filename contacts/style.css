@@ -1,0 +1,62 @@
+@import url('/style.css');
+
+#contact {
+    display: block;
+}
+
+#contact label {
+    display: block;
+    padding: 0 0 0.3rem 0.5rem;
+    font-size: 0.9rem;
+}
+
+#contact input,
+#contact textarea,
+#contact button {
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+#contact input,
+#contact textarea {
+    width: 100%;
+}
+
+#contact textarea {
+    height: 6rem;
+    resize: vertical;
+}
+
+#contact button {
+    color: #fff;
+    background: #000;
+    cursor: pointer;
+    border: 1px solid #000;
+}
+
+#contact button:hover {
+    color: #000;
+    background: #fff;
+}
+
+#contact input:invalid,
+#contact textarea:invalid {
+    background: rgb(255, 207, 207);
+    border-bottom: 3px solid red;
+}
+
+#contact input:valid,
+#contact textarea:valid {
+    background: rgb(232, 240, 254);
+    border-bottom: 3px solid green;
+}
+
+#contact:invalid button {
+    background: rgb(165, 165, 165);
+    color: rgb(221, 221, 221);
+    cursor: not-allowed;
+    border: 1px solid transparent;
+}
