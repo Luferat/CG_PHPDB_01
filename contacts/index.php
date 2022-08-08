@@ -30,10 +30,10 @@ $page_aside = '';
 
 // Valores iniciais dos campos:
 $form = array(
-    'name' => 'Joca da Silva',
-    'email' => 'joca@silva',
-    'subject' => 'Contado do Joca',
-    'message' => 'Mensagem do Joca'
+    'name' => '',
+    'email' => '',
+    'subject' => '',
+    'message' => ''
 );
 
 // Action do form:
@@ -106,7 +106,37 @@ HTML;
 
     else :
 
-        echo 'Processando form';
+        // Query para salvar contato no banco de dados:
+        $sql = <<<SQL
+
+INSERT INTO contacts (name, email, subject, message)
+VALUES (
+    '{$name}',
+    '{$email}',
+    '{$subject}',
+    '{$message}'
+);
+
+SQL;
+
+        // Executa a query:
+        $conn->query($sql);
+
+        // Obtém o primeiro nome do remetente:
+        $parts = explode(' ', $name)[0];
+
+        // Feedback para o usuário:
+        $page_article = <<<HTML
+
+<h2>Faça Contato</h2>
+<p><strong>Olá {$parts}!</strong></p>
+<p>Seu contato foi enviado com sucesso!</p>
+<p><a href="/">Início</a></p>
+
+HTML;
+
+        // Envia contato por e-mail para o administrador do site:
+        @mail('admin@cripei.com', 'Formulário de contatos', 'Um novo contato foi enviado para o site Cripei.');
 
     endif;
 
@@ -116,7 +146,6 @@ else :
     $page_article = $html_form;
 
 endif;
-
 
 /***********************************
  * Fim do código PHP desta página! *
