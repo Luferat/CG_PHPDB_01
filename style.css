@@ -214,7 +214,7 @@ a:hover {
     background: rgba(255, 255, 255, 0.7);
 }
 
-/* Telas maiores que 767px */
+/* Telas maiores que 768px */
 @media (min-width: 768px) {
 
     /* Main, Article e Aside */
@@ -236,8 +236,8 @@ a:hover {
 
 }
 
-/* Telas maiores que 477px */
-@media (min-width: 478px) {
+/* Telas maiores que 475px */
+@media (min-width: 475px) {
 
     /* Nav */
 
@@ -294,6 +294,7 @@ aside .u_list li {
     margin-top: .5rem;
 }
 
+/* Telas maiores que 475px */
 @media (min-width: 475px) {
 
     .art_block {
@@ -305,4 +306,9 @@ aside .u_list li {
         width: 90px;
         height: 90px;
     }
+}
+
+/* Classes de uso geral */
+.center {
+    text-align: center;
 }

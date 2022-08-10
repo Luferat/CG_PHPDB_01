@@ -41,8 +41,9 @@ foreach ($db as $server => $values) :
         // Conecta no banco de dados com as credenciais deste servidor:
         $conn = new mysqli($values['hostname'], $values['username'], $values['password'], $values['database']);
 
-        // Trata possíveis exceções
+        // Trata possíveis exceções:
         if ($conn->connect_error) die("Falha de conexão com o banco e dados: " . $conn->connect_error);
+
     endif;
 endforeach;
 
