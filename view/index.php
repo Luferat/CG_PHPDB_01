@@ -74,24 +74,8 @@ $page_article = <<<HTML
 
 HTML;
 
-/**
- * Calcula idade do autor:
- */
-
-// Partes da data de nascimento:
-$birth_parts = explode('-', $art['user_birth']);
-
-// Partes da data atual:
-$now_parts = explode('-', date('Y-m-d'));
-
-// Calcula idade pelo ano:
-$age = $now_parts[0] - $birth_parts[0];
-
-// Ajusta idade pelo mês e dia:
-if ($now_parts[1] < $birth_parts[1])
-    $age--;
-elseif (($now_parts[1] == $birth_parts[1]) && ($now_parts[2] < $birth_parts[2]))
-    $age--;
+// Obtém a idade do usuário:
+$age = get_age($art['user_birth']);
 
 // Obtém mais artigos do autor:
 $sql = <<<SQL

@@ -2,8 +2,8 @@
 
 /**
  * IMPORTANTE!
- * Conforme nossas "políticas de segurança", a senha deve seguir as seguintes 
- * regras:
+ * Conforme nossas "políticas de segurança", a senha do usuário deve seguir as
+ * seguintes regras:
  *
  *     • Entre 7 e 25 caracteres;
  *     • Pelo menos uma letra minúscula;
@@ -14,7 +14,7 @@
  *
  *     • HTML5 → pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{7,25}$"
  *     • JavaScript → \^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{7,25}$\
- *     • PHP → "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{7,25}$"
+ *     • PHP → "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{7,25}$/"
  * 
  * Lembre-se também de apagar os atributos value="" dos campos do formulário.
  * Eles foram inseridos apenas para facilitar os testes e não devem ser usados
@@ -45,6 +45,9 @@ $page_aside = '';
  * Todo o código PHP desta página começa aqui! *
  ***********************************************/
 
+// Se o usuário está logado, envia ele para o perfil:
+if ($user) header('Location: /profile');
+
 // Action do form:
 $action = htmlspecialchars($_SERVER["PHP_SELF"]);
 
@@ -59,6 +62,12 @@ $html_form = <<<HTML
     <p>
         <label for="password">Senha:</label>
         <input type="password" name="password" id="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{7,25}$" value="12345_Qwerty">
+    </p>
+    <p class="logged">
+        <label>
+            <input type="checkbox" name="logged" id="logged" value="true">
+            Mantenha-me logado.
+        </label>
     </p>
     <p>
         <button type="submit">Entrar</button>
@@ -94,7 +103,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") :
    
 HTML;
 
-    // Se todos os campos foram preenchidos...
+    // Se a senha é Inválida...
+    elseif (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{7,25}$/", $password)) :
+
+        // Exibe informação de erro e o formulário novamente:
+        $page_article .= <<<HTML
+
+<div class="feedback_error">
+    <strong>Oooops!</strong>
+    <p>A senha digitada é inválida, porque deve ter o seguinte formato:</p>
+    <small>
+    <ul>
+        <li>Entre 7 e 25 caracteres;</li>
+        <li>Pelo menos uma letra minúscula;</li>
+        <li>Pelo menos uma letra maiúscula;</li>
+        <li>Pelo menos um número.</li>
+    </ul>
+    </small>
+    <p>Por favor, preencha todos os campos e tente novamente.</p>
+</div>
+
+{$html_form}
+    
+HTML;
+
+    // Se tudo está correto...
     else :
 
         // Query de consulta ao banco de dados:
@@ -130,22 +163,34 @@ HTML;
         // Achei o usuário....
         else :
 
-            // Extrai dados do usuário e armazena em $user[]:
-            $user = $res->fetch_assoc();
+            // Extrai dados do usuário e armazena em $ck_user[]:
+            $ck_user = $res->fetch_assoc();
 
-            // Cria array com dados que serão armazenados no cookie:
+            // Dados que vão para o cookie ficam em $ck:
             $ck = array(
-                'id' => $user['user_id'],
-                'name' => $user['user_name'],
-                'email' => $user['user_email'],
-                'avatar' => $user['user_avatar']
+                'id' => $ck_user['user_id'],
+                'name' => $ck_user['user_name'],
+                'email' => $ck_user['user_email'],
+                'avatar' => $ck_user['user_avatar']
             );
 
-            // Gera cookie do usuário, armazenando array na forma de JSON:
-            setcookie("{$site_name}_user", json_encode($ck), time() + (86400 * 90), '/');
+            // Se marcou para manter logado...
+            if (isset($_POST['logged']))
+
+                // Gera cookie de 90 dias:
+                $ck_validate = time() + (86400 * 90);
+
+            // Se não marcou para manter logado...
+            else
+
+                // Gera cookie de sessão:
+                $ck_validate = 0;
+
+            // Gera cookie do usuário:
+            setcookie("{$site_name}_user", json_encode($ck), $ck_validate, '/');
 
             // Extrai o primeiro nome do usuário:
-            $fst = explode(' ', $user['user_name'])[0];
+            $fst = explode(' ', $ck_user['user_name'])[0];
 
             // Feedback para o usuário:
             $page_article .= <<<HTML
@@ -193,7 +238,15 @@ echo <<<HTML
 
 <article>{$page_article}</article>
 
-<aside>{$page_aside}</aside>
+<script>
+    // Oculta mensagem de erro após alguns segundos e limpa os campos:
+    let feedback_error = document.getElementsByClassName('feedback_error');
+    if(feedback_error.length != 0) {
+        setTimeout(() => {
+            feedback_error[0].style.display = 'none';
+        }, 5000);
+    }    
+</script>
 
 HTML;
 

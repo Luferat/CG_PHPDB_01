@@ -34,10 +34,28 @@
                 <i class="fa-solid fa-circle-info fa-fw"></i>
                 <span>Sobre</span>
             </a>
+<?php
+
+// Se o usuário está logado...
+if($user):
+?>
+
+            <a href="/profile" title="Ver perfil de <?php echo $user['name'] ?>" class="menu-user">
+                <img src="<?php echo $user['avatar'] ?>" alt="<?php echo $user['name'] ?>">
+                <span>Perfil</span>
+            </a>
+
+<?php 
+// Se usuário não está logado...
+else:
+?>
             <a href="/login" title="Logue-se...">
                 <i class="fa-solid fa-user fa-fw"></i>
                 <span>Entrar</span>
             </a>
+<?php 
+endif;
+?>
         </nav>
 
         <main>

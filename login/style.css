@@ -28,3 +28,8 @@
     display: table;
     margin: auto;
 }
+
+input[type="checkbox"] {
+    display: inline;
+    width: auto;
+}
