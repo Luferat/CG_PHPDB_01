@@ -82,7 +82,7 @@ SQL;
 $res = $conn->query($sql);
 
 // Variável da barra lateral:
-$page_aside = '<h3>+ Visitados</h3><ul class="u_list">';
+$page_aside = '<h4>+ Visitados</h4><ul class="u_list">';
 
 // Loop para obter cada artigo:
 while ($top_art = $res->fetch_assoc()) :

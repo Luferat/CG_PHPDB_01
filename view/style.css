@@ -19,16 +19,8 @@ aside .author h4 {
     text-align: center;
 }
 
-.more-articles {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-}
-
-aside .author ul {
+aside ul {
     margin: 0;
     padding: 0 0 0 .8rem;
-}
-
-aside .author ul li {
     line-height: 1.4;
 }

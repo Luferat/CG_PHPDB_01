@@ -55,3 +55,18 @@ form:invalid button {
     cursor: not-allowed;
     border: 1px solid transparent;
 }
+
+form input[type="checkbox"] {
+    display: inline;
+    width: auto;
+}
+
+.aside-social {
+    display: flex;
+    flex-direction: column;
+}
+
+.aside-social a {
+    display: block;
+    margin-bottom: .75rem;
+}

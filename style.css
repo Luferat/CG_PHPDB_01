@@ -125,8 +125,8 @@ a:hover {
 /* Usuário logado nmo menu principal */
 
 .menu-user img {
-    width: 1.6rem;
-    height: 1.6rem;
+    width: 1.5rem;
+    height: 1.5rem;
     display: block;
     margin-bottom: .25rem;
     border-radius: 50%;
@@ -214,7 +214,8 @@ a:hover {
 }
 
 .wrap>main>article>h2:first-child,
-.wrap>main>aside>h3:first-child {
+.wrap>main>aside>h3:first-child,
+.wrap>main>aside>h4:first-child {
     margin-top: 0;
 }
 

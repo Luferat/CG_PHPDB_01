@@ -98,7 +98,7 @@ $author_arts = '';
 if ($res->num_rows > 0) :
 
     // Prepara a listagem dos artigos:
-    $author_arts = '<h5 class="more-articles">+ Artigos</h5><ul>';
+    $author_arts = '<h4 class="more-articles">+ Artigos</h4><ul>';
 
     // Loop para obter cada artigo:
     while ($author_art = $res->fetch_assoc()) :
@@ -123,10 +123,10 @@ $page_aside = <<<HTML
     <img src="{$art['user_avatar']}" alt="{$art['user_name']}">
     <h4>{$art['user_name']}</h4>
     <h5 class="age">{$age} anos</h5>
-    <p>{$art['user_bio']}</p>
-    {$author_arts}
+    <p><small>{$art['user_bio']}</small></p>
 
-</div>
+</div>    
+{$author_arts}
 
 HTML;
 

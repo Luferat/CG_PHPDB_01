@@ -147,6 +147,55 @@ else :
 
 endif;
 
+$page_aside = <<<HTML
+
+<h4>Redes Sociais</h4>
+<div class="aside-social">
+    <a href="https://facebook.com/cripei" target="_blank" title="Nosso Facebook">
+        <i class="fa-brands fa-facebook-square fa-fw"></i>
+        <span>Facebook</span>
+    </a>
+    <a href="https://youtube.com/cripei" target="_blank" title="Nosso canal no Youtube">
+        <i class="fa-brands fa-youtube-square fa-fw"></i>
+        <span>Youtube</span>
+    </a>
+    <a href="https://instagram.com/cripei" target="_blank" title="Nosso Instagram">
+        <i class="fa-brands fa-instagram-square fa-fw"></i>
+        <span>Instagram</span>
+    </a>
+    <a href="https://github.com/cripei" target="_blank" title="Nosso GitHub">
+        <i class="fa-brands fa-github fa-fw"></i>
+        <span>GitHub</span>
+    </a>
+</div>
+
+<h4>+ Contatos</h4>
+<div class="aside-social">
+    <a href="mailto:admin@cripei.com" target="_blank" title="E-mail Comercial">
+        <i class="fa-solid fa-envelope fa-fw"></i>
+        <span>E-mail comercial</span>
+    </a>
+    <a href="https://wa.me/5521987654321" target="_blank" title="WhatsApp Comercial">
+        <i class="fa-brands fa-whatsapp fa-fw"></i>
+        <span>WhatsApp</span>
+    </a>
+    <a href="tel:5521987654321" target="_blank" title="Nosso Telefone Comercial">
+        <i class="fa-solid fa-phone fa-fw"></i>
+        <span>Telefone</span>
+    </a>
+</div>
+
+<h4>Mapa</h4>
+<div class="aside-social">
+    <a href="https://goo.gl/maps/MXTWVv7FQz9Syxd27" target="_blank" title="Onde estamos">
+        <i class="fa-solid fa-location-dot fa-fw"></i>
+        <span>Onde estamos</span>
+    </a>
+    <small>Rua do Siri Molhado, 22, Centro, Fenda do Bikini, UF.</small>
+</div>
+
+HTML;
+
 /***********************************
  * Fim do código PHP desta página! *
  ***********************************/

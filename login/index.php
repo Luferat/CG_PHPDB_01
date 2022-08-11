@@ -1,52 +1,25 @@
 <?php
 
-/**
- * IMPORTANTE!
- * Conforme nossas "políticas de segurança", a senha do usuário deve seguir as
- * seguintes regras:
- *
- *     • Entre 7 e 25 caracteres;
- *     • Pelo menos uma letra minúscula;
- *     • Pelo menos uma letra maiúscula;
- *     • Pelo menos um número.
- *
- * A REGEX abaixo especifica essas regras:
- *
- *     • HTML5 → pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{7,25}$"
- *     • JavaScript → \^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{7,25}$\
- *     • PHP → "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{7,25}$/"
- * 
- * Lembre-se também de apagar os atributos value="" dos campos do formulário.
- * Eles foram inseridos apenas para facilitar os testes e não devem ser usados
- * em produção.
- */
-
-/**
- * Inclui o arquivo de configuração global do aplicativo:
- */
+// Inclui o arquivo de configuração global do aplicativo:
 require($_SERVER['DOCUMENT_ROOT'] . '/_config.php');
 
-/**
- * Define o título desta página:
- */
+// Define o título desta página:
 $page_title = 'Login / Entrar';
 
-/**
- * Define o conteúdo principal desta página:
- */
-$page_article = '<h2>Login / Entrar</h2>';
-
-/**
- * Define o conteúdo da barra lateral desta página:
- */
-$page_aside = '';
+// Define o conteúdo principal desta página:
+$page_article = "<h2>{$page_title}</h2>";
 
 /***********************************************
  * Todo o código PHP desta página começa aqui! *
  ***********************************************/
 
-// Se o usuário está logado, envia ele para o perfil:
+// Se o usuário já está logado, envia ele para o perfil:
 if ($user) header('Location: /profile');
+
+// Inicializa variáveis:
+$email = '';
+$password = '';
+$logged = 'false';
 
 // Action do form:
 $action = htmlspecialchars($_SERVER["PHP_SELF"]);
@@ -54,14 +27,14 @@ $action = htmlspecialchars($_SERVER["PHP_SELF"]);
 // Template do formulário de login:
 $html_form = <<<HTML
 
-<form action="{$action}" method="post" id="login" autocomplete="off">
+<form action="{$action}" method="post" id="login">
     <p>
         <label for="email">E-mail:</label>
-        <input type="email" name="email" id="email" required value="joca@silva.com">
+        <input type="email" name="email" id="email" required value="{$email}">
     </p>
     <p>
         <label for="password">Senha:</label>
-        <input type="password" name="password" id="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{7,25}$" value="12345_Qwerty">
+        <input type="password" name="password" id="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{7,25}$" autocomplete="off" value="{$password}">
     </p>
     <p class="logged">
         <label>
@@ -86,6 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") :
     // Processar campos usando a função post_clean() que criamos em "/_config.php":
     $email = post_clean('email', 'email');
     $password = post_clean('password', 'string');
+    $logged = isset($_POST['logged']) ? 'true' : 'false';
 
     // Se tem campos vazios...
     if ($email == '' or $password == '') :
@@ -100,11 +74,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") :
 </div>
 
 {$html_form}
-   
+
 HTML;
 
     // Se a senha é Inválida...
-    elseif (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{7,25}$/", $password)) :
+    elseif (!preg_match($rgpass, $password)) :
 
         // Exibe informação de erro e o formulário novamente:
         $page_article .= <<<HTML
@@ -175,16 +149,18 @@ HTML;
             );
 
             // Se marcou para manter logado...
-            if (isset($_POST['logged']))
+            if ($logged == 'true') :
 
                 // Gera cookie de 90 dias:
                 $ck_validate = time() + (86400 * 90);
 
             // Se não marcou para manter logado...
-            else
+            else :
 
                 // Gera cookie de sessão:
                 $ck_validate = 0;
+
+            endif;
 
             // Gera cookie do usuário:
             setcookie("{$site_name}_user", json_encode($ck), $ck_validate, '/');
@@ -239,13 +215,29 @@ echo <<<HTML
 <article>{$page_article}</article>
 
 <script>
-    // Oculta mensagem de erro após alguns segundos e limpa os campos:
+    /**
+     * JavaScript desta página
+     */
+
+    // Captura div com mensagem de erro → class="feedback_error":
     let feedback_error = document.getElementsByClassName('feedback_error');
+
+    // Se encontrou a div...
     if(feedback_error.length != 0) {
-        setTimeout(() => {
-            feedback_error[0].style.display = 'none';
-        }, 5000);
-    }    
+
+        // Oculta mensagem de erro após 5 segundos (5000 milissegundos):
+        // setTimeout(() => { feedback_error[0].style.display = 'none'; }, 5000);
+
+        // Seta os campos do formulário:
+        email.value = '{$email}';
+        password.value = '';
+        logged.checked = {$logged};
+    }
+
+    // Previne o reenvio do formulário ao recarregar a página:
+    if ( window.history.replaceState )
+        window.history.replaceState( null, null, window.location.href );
+
 </script>
 
 HTML;
