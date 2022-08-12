@@ -150,3 +150,25 @@ function get_age($birthdate)
     // Retorna a idade:
     return $age;
 }
+
+/**
+ * Facilita o debug (Isso não é usado em produção):
+ * 
+ * Você pode usar tanto "print_r()" quanto "var_dump()". Ambas fazem a mesma 
+ * coisa só que tem uma formatação diferente, sendo, portanto, questão de 
+ * gosto.
+ * 
+ *      • A saída de "var_dump()" é mais detalhada, porém, "mais poluída";
+ *      • A saída de "print_r()" é mais simples e menos detalhada.
+ * 
+ * Para escolher, mantenha descomentada apenas a função que quer usar e 
+ * comente a outra.
+ **/ 
+function debug($element, $pre = true, $stop = true)
+{
+    if ($pre) echo '<pre>';
+    print_r($element);
+    // var_dump($element);
+    if ($pre) echo '</pre>';
+    if ($stop) exit;
+}

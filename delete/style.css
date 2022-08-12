@@ -1,0 +1,17 @@
+@import url('../style.css');
+@import url('../logout/style.css');
+@import url('../contacts/style.css');
+
+p.menu-tools {
+    display: flex;
+    justify-content: space-around;
+}
+
+form {
+    display: flex;
+    justify-content: space-around;
+}
+
+form button {
+    font-size: 90%;
+}
