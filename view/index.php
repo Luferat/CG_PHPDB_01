@@ -1,24 +1,16 @@
 <?php
 
-/**
- * Inclui o arquivo de configuração global do aplicativo:
- */
+// Inclui o arquivo de configuração global do aplicativo:
 require($_SERVER['DOCUMENT_ROOT'] . '/_config.php');
 
-/**
- * Define o título desta página:
- */
+// Define o título desta página:
 $page_title = 'Artigo Completo';
 
-/**
- * Define o conteúdo principal desta página:
- */
-$page_article = '';
+// Define o conteúdo principal desta página:
+$page_article = "<h2>{$page_title}</h2>";
 
-/**
- * Define o conteúdo da barra lateral desta página:
- */
-$page_aside = '';
+// Define o conteúdo da barra lateral desta página:
+$page_aside = '<h3>Barra lateral</h3>';
 
 /***********************************************
  * Todo o código PHP desta página começa aqui! *
@@ -60,7 +52,6 @@ $page_title = $art['art_title'];
 // Obtém o nome do autor em partes:
 $parts = explode(' ', $art['user_name']);
 $autor_name = $parts[0] . " " . $parts[count($parts) - 1];
-
 $author_date = "Por {$autor_name} em {$art['datebr']}.";
 
 // Formata o conteúdo:

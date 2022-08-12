@@ -7,7 +7,7 @@ require($_SERVER['DOCUMENT_ROOT'] . '/_config.php');
 $page_title = 'Login / Entrar';
 
 // Define o conteúdo principal desta página:
-$page_article = "<h2>{$page_title}</h2>";
+$page_article = "<h2>{$page_title}</h2><p>Logue-se para ter acesso ao nosso conetúdo exclusivo.</p>";
 
 /***********************************************
  * Todo o código PHP desta página começa aqui! *
@@ -186,14 +186,8 @@ HTML;
 
 else :
 
-    // Exibe o formulário
-    $page_article = <<<HTML
-
-<h2>Logue-se!</h2>
-
-{$html_form}
-
-HTML;
+    // Exibe o formulário em <article>:
+    $page_article .= $html_form;
 
 endif;
 

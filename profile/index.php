@@ -47,7 +47,7 @@ $res = $conn->query($sql);
 if($res->num_rows != 1):
 
     // Apaga o cookie:
-    setcookie("{$site_name}_user", '', -1, '/');
+    // setcookie("{$site_name}_user", '', -1, '/');
 
     // Envia para login:
     header('Location: /login');
