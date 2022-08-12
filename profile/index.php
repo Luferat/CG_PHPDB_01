@@ -108,8 +108,11 @@ $page_aside = <<<HTML
 </ul>
 <hr>
 <ul>
-    <li><a href="/logout">Logout / Sair</a></li>
     <li><a href="/delete">Apagar perfil</a></li>
+</ul>
+<hr>
+<ul>
+    <li><a href="/logout">Logout / Sair</a></li>
 </ul>
 
 HTML;
