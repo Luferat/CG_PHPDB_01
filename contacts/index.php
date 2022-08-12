@@ -1,27 +1,15 @@
 <?php
 
-/**
- * Inclui o arquivo de configuração global do aplicativo:
- */
+// Inclui o arquivo de configuração global do aplicativo:
 require($_SERVER['DOCUMENT_ROOT'] . '/_config.php');
 
-/**
- * Define o título desta página:
- **/
+// Define o título desta página:
 $page_title = 'Faça Contato';
 
-/**
- * Define o conteúdo principal desta página:
- * 
- * Esta viarável será exibida dentro da tag <article>...</article>.
- */
-$page_article = '<h2>Faça Contato</h2>';
+// Define o conteúdo principal desta página:
+$page_article = "<h2>{$page_title}</h2>";
 
-/**
- * Define o conteúdo da barra lateral desta página:
- * 
- * Esta variável será exibida na tag <aside>...</aside>.
- */
+// Define o conteúdo da barra lateral desta página:
 $page_aside = '';
 
 /***********************************************
@@ -35,6 +23,15 @@ $form = array(
     'subject' => '',
     'message' => ''
 );
+
+// Se tem usuário logado...
+if ($user) :
+
+    // Preenche nome e email com dados do usuário:
+    $form['name'] = $user['name'];
+    $form['email'] = $user['email'];
+
+endif;
 
 // Action do form:
 $action = htmlspecialchars($_SERVER["PHP_SELF"]);

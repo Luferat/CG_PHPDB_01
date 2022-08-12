@@ -41,7 +41,7 @@ $page_title = 'Página modelo';
  * 
  * Esta viarável será exibida dentro da tag <article>...</article>.
  */
-$page_article = '';
+$page_article = "<h2>{$page_title}</h2>";
 
 /**
  * Define o conteúdo da barra lateral desta página:
