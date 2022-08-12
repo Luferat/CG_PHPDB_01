@@ -1,0 +1,32 @@
+@import url('../style.css');
+@import url('../login/style.css');
+@import url('../contacts/style.css');
+
+#logout {
+    display: flex;
+    justify-content: space-around;
+}
+
+#logout button {
+    font-size: 90%;
+}
+
+#logout button[type="button"] {
+    background: steelblue;
+    border: none;
+}
+
+#logout button[type="submit"] {
+    background: orangered;
+    border: none;
+}
+
+#logout button[type="button"]:hover {
+    background: rgb(36, 68, 94);
+    color: white;
+}
+
+#logout button[type="submit"]:hover {
+    background: rgb(124, 34, 1);
+    color: white;
+}

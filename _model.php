@@ -41,14 +41,14 @@ $page_title = 'Página modelo';
  * 
  * Esta viarável será exibida dentro da tag <article>...</article>.
  */
-$page_article = '';
+$page_article = "<h2>{$page_title}</h2>";
 
 /**
  * Define o conteúdo da barra lateral desta página:
  * 
  * Esta variável será exibida na tag <aside>...</aside>.
  */
-$page_aside = '';
+$page_aside = '<h3>Barra lateral</h3>';
 
 /***********************************************
  * Todo o código PHP desta página começa aqui! *
