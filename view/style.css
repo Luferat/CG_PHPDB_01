@@ -1,5 +1,14 @@
 /* Importa as folhas de estilo globais */
 @import url('/style.css');
+@import url('../contacts/style.css');
+
+#comment {
+    border: none;
+}
+
+#comment button {
+    margin-left: 1rem;
+}
 
 aside .author img {
     display: block;
@@ -23,4 +32,20 @@ aside ul {
     margin: 0;
     padding: 0 0 0 .8rem;
     line-height: 1.4;
+}
+
+.comment-item {
+    background: rgba(255, 255, 255, 1);
+    margin-bottom: 1rem;
+    border-radius: .3rem;
+}
+
+.comment-info {
+    padding: .4rem;
+    font-size: small;
+    border-bottom: 1px dotted grey;
+}
+
+.comment-content {
+    padding: .5rem;
 }

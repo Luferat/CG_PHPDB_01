@@ -72,7 +72,6 @@ require($_SERVER['DOCUMENT_ROOT'] . '/_header.php');
 echo <<<HTML
 
 <article>{$page_article}</article>
-
 <aside>{$page_aside}</aside>
 
 HTML;

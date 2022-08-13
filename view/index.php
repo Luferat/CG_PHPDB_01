@@ -128,6 +128,108 @@ $counter = intval($art['art_counter']) + 1;
 $sql = "UPDATE articles SET art_counter = '{$counter}' WHERE art_id = '{$id}';";
 $conn->query($sql);
 
+/***************
+ * Comentários *
+ ***************/
+
+// Define variáveis:
+$comments = '';
+
+// Se usuário está logado...
+if ($user) :
+
+    // Action do form:
+    $action = htmlspecialchars($_SERVER["PHP_SELF"]);
+
+    $comments .= <<<HTML
+
+<form action="{$action}" method="post" id="comment">
+    <label>
+        <textarea name="comment" id="comment"></textarea>
+    </label>
+    <button type="submit">Enviar</button>
+</form>
+
+<hr class="separator">
+
+HTML;
+
+// Se não está logado:
+else :
+
+    // Convite para logar-se:
+    $comments .= <<<HTML
+
+<p class="center"><a href="/login">Logue-se</a> para comentar.</p>
+<hr class="separator">
+
+HTML;
+
+endif;
+
+// Obtém todos os comentários para o artigo atual:
+$sql = <<<SQL
+
+SELECT
+    comments.*,
+    users.user_name,
+    DATE_FORMAT(cmt_date, '%d/%m/%Y às %h:%i') AS date_br
+FROM comments
+INNER JOIN users ON cmt_author = user_id
+WHERE cmt_article = '{$id}'
+    AND cmt_status = 'on'
+ORDER BY cmt_date DESC;
+
+SQL;
+$res = $conn->query($sql);
+
+// Conta os comentários:
+$total_comments = $res->num_rows;
+
+// Se não tem comentários...
+if ($total_comments < 1) :
+
+    $comments .= <<<HTML
+    
+<p class="center">Nenhum comentário encontrado. Seja a(o) primeira(o) a comentar!</p>
+
+HTML;
+
+// Se tem comentários...
+else :
+
+    // Loop para extrair cada comentário:
+    while ($cmt = $res->fetch_assoc()) :
+
+        // Trata comentário:
+        $cmt_body = nl2br($cmt['cmt_content']);
+
+        $comments .= <<<HTML
+
+<div class="comment-item">
+
+    <div class="comment-info">
+        Por {$cmt['user_name']}<br>
+        Em ${cmt['date_br']}.
+    </div>
+    <div class="comment-content">{$cmt_body}</div>
+
+</div>
+
+HTML;
+
+    endwhile;
+
+endif;
+
+$page_article .= <<<HTML
+
+<hr class="separator">
+<h3>Comentários ($total_comments)</h3>
+{$comments}
+
+HTML;
+
 /***********************************
  * Fim do código PHP desta página! *
  ***********************************/
@@ -144,7 +246,6 @@ require($_SERVER['DOCUMENT_ROOT'] . '/_header.php');
 echo <<<HTML
 
 <article>{$page_article}</article>
-
 <aside>{$page_aside}</aside>
 
 HTML;

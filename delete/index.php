@@ -81,19 +81,20 @@ HTML;
         // Action do form:
         $action = htmlspecialchars($_SERVER["PHP_SELF"]);
 
-        // Feedback para o usuário:
+        // Pede confirmação do usuário:
         $page_article .= <<<HTML
-
-<div class="feedback_ok">
-    <h3>Olá {$fst}!</h3>
-    <p>Tem certeza que deseja apagar seu perfil?</p>
-    <p><em>Se apagar seu perfil, não poderá acessar nosso conteúdo exclusivo até que se cadastre novamente.</em></p>
-    <form action="{$action}" method="post" id="delete">
-        <button type="button" onclick="location.href = '/profile'">Não, não apagar.</button>
-        <button type="submit">Sim, apagar.</button>
-    </form>
-</div>
-        
+    
+    <div class="feedback_ok">
+        <h3>Olá {$fst}!</h3>
+        <p>Tem certeza que deseja apagar seu perfil do aplicativo?</p>
+        <blockquote>Esta ação não pode ser desfeita!</blockquote>
+        <p><em>Se sair não poderar acessar os recursos exclusivos até que se cadastre novamente.</em></p>
+        <form action="{$action}" method="post" id="delete">
+            <button type="button" onclick="location.href = '/profile'">Não, não apagar...</button>
+            <button type="submit">Sim, apagar...</button>
+        </form>
+    </div>
+    
 HTML;
 
     endif;

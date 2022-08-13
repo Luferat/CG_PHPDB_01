@@ -332,3 +332,8 @@ aside .u_list li {
 .center {
     text-align: center;
 }
+
+hr.separator {
+    border: none;
+    border-bottom: 1px dotted grey;
+}

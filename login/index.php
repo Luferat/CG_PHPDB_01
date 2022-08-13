@@ -16,9 +16,16 @@ $page_article = "<h2>{$page_title}</h2><p>Logue-se para ter acesso ao nosso cone
 // Se o usuário já está logado, envia ele para o perfil:
 if ($user) header('Location: /profile');
 
+/**
+ * IMPORTANTE!
+ * 
+ * Apague os valores das variáveis "$email" e "$password" em momento de 
+ * produção. Esse valores foram inseridos somente para testes estáticos.
+ **/
+
 // Inicializa variáveis:
-$email = '';
-$password = '';
+$email = 'mari@neuza.com'; // Apague este e-mail!
+$password = '12345_Qwerty'; // Apague esta senha!
 $logged = 'false';
 
 // Action do form:
