@@ -25,6 +25,10 @@
     line-height: 1.5;
 }
 
+aside ul {
+    padding-left: 1.5rem;
+}
+
 .profile hr, aside hr {
     border: none;
     border-top: 1px dotted grey;
