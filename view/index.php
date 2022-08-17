@@ -1,24 +1,16 @@
 <?php
 
-/**
- * Inclui o arquivo de configuração global do aplicativo:
- */
+// Inclui o arquivo de configuração global do aplicativo:
 require($_SERVER['DOCUMENT_ROOT'] . '/_config.php');
 
-/**
- * Define o título desta página:
- */
+// Define o título desta página:
 $page_title = 'Artigo Completo';
 
-/**
- * Define o conteúdo principal desta página:
- */
-$page_article = '';
+// Define o conteúdo principal desta página:
+$page_article = "<h2>{$page_title}</h2>";
 
-/**
- * Define o conteúdo da barra lateral desta página:
- */
-$page_aside = '';
+// Define o conteúdo da barra lateral desta página:
+$page_aside = '<h3>Barra lateral</h3>';
 
 /***********************************************
  * Todo o código PHP desta página começa aqui! *
@@ -60,38 +52,21 @@ $page_title = $art['art_title'];
 // Obtém o nome do autor em partes:
 $parts = explode(' ', $art['user_name']);
 $autor_name = $parts[0] . " " . $parts[count($parts) - 1];
-
-$author_date = "Por {$autor_name} em {$art['datebr']}.";
+$author_date = "Por {$autor_name}.<br>Em {$art['datebr']}.";
 
 // Formata o conteúdo:
 $page_article = <<<HTML
 
 <h2>{$art['art_title']}</h2>
-<small>{$author_date}</small>
+<div class="autor-date">{$author_date}</div>
 <div>{$art['art_content']}</div>
 
 <a id="comments"></a>
 
 HTML;
 
-/**
- * Calcula idade do autor:
- */
-
-// Partes da data de nascimento:
-$birth_parts = explode('-', $art['user_birth']);
-
-// Partes da data atual:
-$now_parts = explode('-', date('Y-m-d'));
-
-// Calcula idade pelo ano:
-$age = $now_parts[0] - $birth_parts[0];
-
-// Ajusta idade pelo mês e dia:
-if ($now_parts[1] < $birth_parts[1])
-    $age--;
-elseif (($now_parts[1] == $birth_parts[1]) && ($now_parts[2] < $birth_parts[2]))
-    $age--;
+// Obtém a idade do usuário:
+$age = get_age($art['user_birth']);
 
 // Obtém mais artigos do autor:
 $sql = <<<SQL
@@ -114,7 +89,7 @@ $author_arts = '';
 if ($res->num_rows > 0) :
 
     // Prepara a listagem dos artigos:
-    $author_arts = '<h5 class="more-articles">+ Artigos</h5><ul>';
+    $author_arts = '<h4 class="more-articles">+ Artigos</h4><ul>';
 
     // Loop para obter cada artigo:
     while ($author_art = $res->fetch_assoc()) :
@@ -139,10 +114,10 @@ $page_aside = <<<HTML
     <img src="{$art['user_avatar']}" alt="{$art['user_name']}">
     <h4>{$art['user_name']}</h4>
     <h5 class="age">{$age} anos</h5>
-    <p>{$art['user_bio']}</p>
-    {$author_arts}
+    <p><small>{$art['user_bio']}</small></p>
 
-</div>
+</div>    
+{$author_arts}
 
 HTML;
 
@@ -153,28 +128,170 @@ $counter = intval($art['art_counter']) + 1;
 $sql = "UPDATE articles SET art_counter = '{$counter}' WHERE art_id = '{$id}';";
 $conn->query($sql);
 
-/***********************************
- * Fim do código PHP desta página! *
- ***********************************/
+/***************
+ * Comentários *
+ ***************/
 
-/**
- * Inclui o cabeçalho do template nesta página:
- */
-require($_SERVER['DOCUMENT_ROOT'] . '/_header.php');
+// Define variáveis:
+$comments = '';
 
-/**
- * Exibe o conteúdo da página:
- */
+// Se usuário está logado...
+if ($user) :
 
-echo <<<HTML
+    // Se um comentário foi enviado...
+    if ($_SERVER["REQUEST_METHOD"] == "POST") :
 
-<article>{$page_article}</article>
+        // Obtém e sanitiza comentário enviado:
+        $comment_content = post_clean('comment', 'string');
 
-<aside>{$page_aside}</aside>
+        // Se o comentário está vazio...
+        if ($comment_content == '') :
+
+            // Exibe mensagem de erro:
+            $comments .= '<div class="comment-error">Nenhum comentário enviado!<br>Comentário em branco.</div>';
+
+        // Se o comentário está ok...
+        else :
+
+            // Pesquisa comentário no banco de dados:
+            $sql = <<<SQL
+
+SELECT cmt_id FROM comments 
+WHERE cmt_content = '{$comment_content}'
+    AND cmt_author = '{$user['id']}'
+    AND cmt_article = '{$id}'
+    AND cmt_status = 'on'
+
+SQL;
+            $res = $conn->query($sql);
+
+            // Se o comentário enviado já existe no banco de dados...
+            if ($res->num_rows == 1) :
+
+                // Exibe mensagem de erro:
+                $comments .= '<div class="comment-error">Nenhum comentário enviado!<br>Comentário já existe.</div>';
+
+            // Se o comentário não exite no banco de dados...
+            else :
+
+                // Salva comentário no banco de dados...
+                $sql = <<<SQL
+
+INSERT INTO comments (cmt_author, cmt_article, cmt_content)
+VALUES ('{$user['id']}', '{$id}', '{$comment_content}');
+
+SQL;
+                $conn->query($sql);
+
+                // Exibe mensagem de confirmação:
+                $comments .= '<div class="comment-ok">Comentário enviado com sucesso!</div>';
+
+            endif;
+
+        endif;
+
+    endif;
+
+    // Formulário de comentários
+    $comments .= <<<HTML
+
+<form action="/view/?{$id}#comments" method="post" id="comment">
+    <textarea name="comment" id="comment" required></textarea>
+    <button type="submit">Enviar</button>
+</form>
+
+<hr class="separator">
 
 HTML;
 
-/**
- * Inclui o rodapé do template nesta página.
- */
+// Se não está logado:
+else :
+
+    // Convite para logar-se e comentar:
+    $comments .= <<<HTML
+
+<p class="center"><a href="/login">Logue-se</a> para comentar.</p>
+<hr class="separator">
+
+HTML;
+
+endif;
+
+// Obtém todos os comentários para o artigo atual:
+$sql = <<<SQL
+
+SELECT
+    comments.*,
+    users.user_name,
+    DATE_FORMAT(cmt_date, '%d/%m/%Y às %h:%i') AS date_br
+FROM comments
+INNER JOIN users ON cmt_author = user_id
+WHERE cmt_article = '{$id}'
+    AND cmt_status = 'on'
+ORDER BY cmt_date DESC;
+
+SQL;
+$res = $conn->query($sql);
+
+// Conta os comentários:
+$total_comments = $res->num_rows;
+
+// Se não tem comentários...
+if ($total_comments < 1) :
+
+    // Exibe convite para comentar:
+    $comments .= '<p class="center">Nenhum comentário encontrado. Seja a(o) primeira(o) a comentar!</p>';
+
+// Se tem comentários...
+else :
+
+    // Loop para extrair cada comentário:
+    while ($cmt = $res->fetch_assoc()) :
+
+        // Trata comentário, quebrando linhas de forma correta:
+        $cmt_body = nl2br($cmt['cmt_content']);
+
+        // Formata comentário:
+        $comments .= <<<HTML
+
+<div class="comment-item">
+
+    <div class="comment-info">
+        Por {$cmt['user_name']}.<br>
+        Em ${cmt['date_br']}.
+    </div>
+    <div class="comment-content">{$cmt_body}</div>
+
+</div>
+
+HTML;
+
+    endwhile;
+
+endif;
+
+// Exibe comentários prontos na página:
+$page_article .= <<<HTML
+
+<hr class="separator">
+<h3>Comentários ($total_comments)</h3>
+{$comments}
+
+HTML;
+
+/**************************************
+ * Fim do código PHP desta página!    *
+ * Cuidado ao alterar o código abaixo *
+ **************************************/
+
+// Inclui o cabeçalho do template nesta página:
+require($_SERVER['DOCUMENT_ROOT'] . '/_header.php');
+
+// Exibe o conteúdo da página:
+echo "<article>{$page_article}</article>";
+
+// Exibe a barra lateral da página, mas só se ela não estiver vazia:
+if($page_aside != '') echo "<aside>{$page_aside}</aside>";
+
+// Inclui o rodapé do template nesta página.
 require($_SERVER['DOCUMENT_ROOT'] . '/_footer.php');

@@ -48,6 +48,16 @@
 
 </div>
 
+<?php
+// Carrega JavaScript global 
+?>
+<script src="/script.js"></script>
+
+<?php
+// Se existe o arquivo 'script.js' na pasta da página, carrega ele:
+if (file_exists('script.js')) echo '<script src="script.js"></script>';
+?>
+
 </body>
 
 </html>

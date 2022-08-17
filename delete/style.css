@@ -1,0 +1,7 @@
+@import url('../style.css');
+@import url('../logout/style.css');
+
+.options {
+    display: flex;
+    justify-content: space-around;
+}

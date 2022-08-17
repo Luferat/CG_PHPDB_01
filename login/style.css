@@ -1,0 +1,31 @@
+/* Importa folha de estilos do tema */ 
+@import url('../style.css');
+@import url('../contacts/style.css');
+
+/* Folhas de estilo de login */
+#login, .feedback_error {
+    width: 100%;
+    max-width: 300px;
+    margin: auto;
+}
+
+.login-tools {
+    border-top: 1px dotted grey;
+    padding: .5rem 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.feedback_error {
+    color: red;
+    background: #ffffcc;
+    padding: .5rem;
+    padding-bottom: .1rem;
+    border-radius: .3rem;
+}
+
+.feedback_ok {
+    display: table;
+    margin: auto;
+}
+

@@ -1,0 +1,35 @@
+/* Importa CSS do template */
+@import url('../style.css');
+
+.profile {
+    display: table;
+    margin: auto;
+    text-align: center;
+}
+
+.profile img {
+    display: block;
+    margin: auto;
+    max-width: 300px;
+}
+
+.profile h3 {
+    margin-top: 0.25rem;
+}
+
+.profile p, .profile ul {
+    text-align: initial;
+}
+
+.profile ul, aside ul {
+    line-height: 1.5;
+}
+
+aside ul {
+    padding-left: 1.5rem;
+}
+
+.profile hr, aside hr {
+    border: none;
+    border-top: 1px dotted grey;
+}

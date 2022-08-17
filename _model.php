@@ -41,14 +41,16 @@ $page_title = 'Página modelo';
  * 
  * Esta viarável será exibida dentro da tag <article>...</article>.
  */
-$page_article = '';
+$page_article = "<h2>{$page_title}</h2>";
 
 /**
  * Define o conteúdo da barra lateral desta página:
  * 
  * Esta variável será exibida na tag <aside>...</aside>.
+ * Se a variável estiver vazia ($page_aside = '') ou não for declarada,
+ * a barra lateral não será exibida no template.
  */
-$page_aside = '';
+$page_aside = '<h3>Barra lateral</h3>';
 
 /***********************************************
  * Todo o código PHP desta página começa aqui! *
@@ -56,28 +58,19 @@ $page_aside = '';
 
 
 
-/***********************************
- * Fim do código PHP desta página! *
- ***********************************/
+/**************************************
+ * Fim do código PHP desta página!    *
+ * Cuidado ao alterar o código abaixo *
+ **************************************/
 
-/**
- * Inclui o cabeçalho do template nesta página:
- */
+// Inclui o cabeçalho do template nesta página:
 require($_SERVER['DOCUMENT_ROOT'] . '/_header.php');
 
-/**
- * Exibe o conteúdo da página:
- */
+// Exibe o conteúdo da página:
+echo "<article>{$page_article}</article>";
 
-echo <<<HTML
+// Exibe a barra lateral da página, mas só se ela não estiver vazia:
+if($page_aside != '') echo "<aside>{$page_aside}</aside>";
 
-<article>{$page_article}</article>
-
-<aside>{$page_aside}</aside>
-
-HTML;
-
-/**
- * Inclui o rodapé do template nesta página.
- */
+// Inclui o rodapé do template nesta página.
 require($_SERVER['DOCUMENT_ROOT'] . '/_footer.php');

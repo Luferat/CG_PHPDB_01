@@ -1,8 +1,6 @@
 <?php
 
-/**
- * Inclui o arquivo de configuração global do aplicativo:
- */
+// Inclui o arquivo de configuração global do aplicativo:
 require($_SERVER['DOCUMENT_ROOT'] . '/_config.php');
 
 /**
@@ -12,21 +10,17 @@ require($_SERVER['DOCUMENT_ROOT'] . '/_config.php');
  */
 $page_title = $site_slogan;
 
-/**
- * Define o conteúdo principal desta página:
- */
-$page_article = '';
+// Define o conteúdo principal desta página:
+$page_article = '<h2>Artigos Recentes</h2>';
 
-/**
- * Define o conteúdo da barra lateral desta página:
- */
+// Define o conteúdo da barra lateral desta página:
 $page_aside = '';
 
 /***********************************************
  * Todo o código PHP desta página começa aqui! *
  ***********************************************/
 
-// Obtém todos os artigos do site:
+// Obtém todos os artigos do banco de dados:
 $sql = <<<SQL
 
 SELECT 
@@ -38,15 +32,8 @@ ORDER BY art_date DESC;
 
 SQL;
 
-// Executa a query:
+// Executa a query acima:
 $res = $conn->query($sql);
-
-// Formata conteúdo da página:
-$page_article = <<<HTML
-
-<h2>Artigos Recentes</h2>
-
-HTML;
 
 // Loop que obtém cada registro recebido do banco de dados:
 while ($art = $res->fetch_assoc()) :
@@ -55,20 +42,18 @@ while ($art = $res->fetch_assoc()) :
     $page_article .= <<<HTML
 
 <div class="art_block" onclick="location.href = '/view/?{$art['art_id']}'">
-
     <img src="{$art['art_thumb']}" alt="{$art['art_title']}">
     <div>
         <h4>{$art['art_title']}</h4>
         <span>{$art['art_intro']}</span>
     </div>
-
 </div>
 
 HTML;
 
 endwhile;
 
-// Obtém a lista dos artigos mais acessados:
+// Obtém a lista dos artigos mais acessados do banco de dados:
 $sql = <<<SQL
 
 SELECT art_id, art_title 
@@ -81,18 +66,14 @@ LIMIT 5;
 SQL;
 $res = $conn->query($sql);
 
-// Variável da barra lateral:
-$page_aside = '<h3>+ Visitados</h3><ul class="u_list">';
+// Inicializa barra lateral:
+$page_aside = '<h4>+ Visitados</h4><ul class="u_list">';
 
 // Loop para obter cada artigo:
 while ($top_art = $res->fetch_assoc()) :
 
-    // Concatena o artigo na listagem:
-    $page_aside .= <<<HTML
-
-<li><a href="/view/?{$top_art['art_id']}">{$top_art['art_title']}</a></li>
-
-HTML;
+    // Concatena o artigo na listagem de artigos:
+    $page_aside .= "<li><a href=\"/view/?{$top_art['art_id']}\">{$top_art['art_title']}</a></li>";
 
 endwhile;
 
@@ -108,7 +89,7 @@ DESC LIMIT 5;
 SQL;
 $res = $conn->query($sql);
 
-// Variável da barra lateral:
+// Inclui comentários na barra lateral:
 $page_aside .= '</ul><h4>Novos comentários</h4><ul class="u_list">';
 
 // Loop para obter cada comentário:
@@ -117,39 +98,27 @@ while ($comments = $res->fetch_assoc()) :
     // Cria um resumo do comentário:
     $resume = substr($comments['cmt_content'], 0, 100) . '...';
 
-    $page_aside .= <<<HTML
-
-<li><a href="/view/?{$comments['cmt_article']}#comments">{$resume}</a></li>
-
-HTML;
+    // Concatena na lista de comentários:
+    $page_aside .= "<li><a href=\"/view/?{$comments['cmt_article']}#comments\">{$resume}</a></li>";
 
 endwhile;
 
 // Fecha a listagem de comentários:
 $page_aside .= '</ul>';
 
-/***********************************
- * Fim do código PHP desta página! *
- ***********************************/
+/**************************************
+ * Fim do código PHP desta página!    *
+ * Cuidado ao alterar o código abaixo *
+ **************************************/
 
-/**
- * Inclui o cabeçalho do template nesta página:
- */
+// Inclui o cabeçalho do template nesta página:
 require($_SERVER['DOCUMENT_ROOT'] . '/_header.php');
 
-/**
- * Exibe o conteúdo da página:
- */
+// Exibe o conteúdo da página:
+echo "<article>{$page_article}</article>";
 
-echo <<<HTML
+// Exibe a barra lateral da página, mas só se ela não estiver vazia:
+if($page_aside != '') echo "<aside>{$page_aside}</aside>";
 
-<article>{$page_article}</article>
-
-<aside>{$page_aside}</aside>
-
-HTML;
-
-/**
- * Inclui o rodapé do template nesta página.
- */
+// Inclui o rodapé do template nesta página.
 require($_SERVER['DOCUMENT_ROOT'] . '/_footer.php');

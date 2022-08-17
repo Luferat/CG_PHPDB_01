@@ -1,0 +1,27 @@
+@import url('../style.css');
+@import url('../login/style.css');
+
+form {
+    display: flex;
+    justify-content: space-around;
+}
+
+form button[type=button] {
+    background: steelblue;
+    border: none;
+}
+
+form button[type=button]:hover {
+    background: rgb(46, 85, 117);
+    color: white;
+}
+
+form button[type=submit] {
+    background: orangered;
+    border: none;
+}
+
+form button[type=submit]:hover {
+    background: rgb(127, 34, 0);
+    color: white;
+}
