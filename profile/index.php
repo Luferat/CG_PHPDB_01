@@ -25,7 +25,8 @@ $sql = <<<SQL
 SELECT 
     *,
     DATE_FORMAT(user_date, '%d/%m/%Y às %H:%i') AS date_br,
-    DATE_FORMAT(user_birth, '%d/%m/%Y') as birth_br
+    DATE_FORMAT(user_birth, '%d/%m/%Y') as birth_br,
+    DATE_FORMAT(user_last_login, '%d/%m/%Y às %H:%i') AS last_br
 FROM users
 WHERE user_id = '{$user['id']}'
     AND user_status = 'on'
@@ -79,7 +80,8 @@ $page_article .= <<<HTML
     <ul>
         <li><strong>Id de usuário: </strong>{$profile['user_id']}</li>
         <li><strong>Cadastrado em: </strong>{$profile['date_br']}</li>
-        <li><strong>Perfil: </strong>{$type[$profile['user_type']]}</li>
+        <li><strong>Último login: </strong>{$profile['last_br']}</li>
+        <li><strong>Perfil de acesso: </strong>{$type[$profile['user_type']]}</li>
     </ul>
 
 </div>
@@ -117,7 +119,7 @@ require($_SERVER['DOCUMENT_ROOT'] . '/_header.php');
 echo "<article>{$page_article}</article>";
 
 // Exibe a barra lateral da página, mas só se ela não estiver vazia:
-if($page_aside != '') echo "<aside>{$page_aside}</aside>";
+if ($page_aside != '') echo "<aside>{$page_aside}</aside>";
 
 // Inclui o rodapé do template nesta página.
 require($_SERVER['DOCUMENT_ROOT'] . '/_footer.php');

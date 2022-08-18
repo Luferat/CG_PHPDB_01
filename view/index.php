@@ -128,7 +128,7 @@ $counter = intval($art['art_counter']) + 1;
 $sql = "UPDATE articles SET art_counter = '{$counter}' WHERE art_id = '{$id}';";
 $conn->query($sql);
 
-// Insere script de comentários:
+// Insere script de processamento de comentários:
 require('comments.php');
 
 // Exibe comentários prontos na página:

@@ -21,6 +21,7 @@ CREATE TABLE users (
     user_avatar VARCHAR(255) NOT NULL,
     user_birth DATE NOT NULL,
     user_bio TEXT,
+    user_last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     user_type ENUM('admin', 'author', 'moderator', 'user') DEFAULT 'user',
     user_status ENUM('on', 'off', 'deleted') DEFAULT 'on'
 );

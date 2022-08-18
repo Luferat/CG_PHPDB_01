@@ -53,7 +53,6 @@ WHERE cmt_content = '{$comment_content}'
     {$cmt_sql}
 
 SQL;
-            debug($sql);
             $res = $conn->query($sql);
 
             // Se o comentário enviado já existe no banco de dados...
@@ -86,7 +85,6 @@ SQL;
                 endif;
 
                 // Executa query:
-                // debug($sql);
                 $conn->query($sql);
 
             endif;

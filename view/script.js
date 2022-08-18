@@ -13,20 +13,23 @@ let btnEdit = document.querySelectorAll('.button-edit');
 
 // Processa clicks nos elementos:
 btnEdit.forEach(el => {
-    el.addEventListener('click', editComment); 
+    el.addEventListener('click', editComment);
 });
 
 // Processa editor de comentários:
 function editComment() {
-    
+
     // Obtém Id do comentário a ser editado:
     cmtId = parseInt(this.getAttribute('data-comment'));
 
     // Envia Id para o formulário:
     commentId.value = cmtId;
 
-    // Obtém o comentário e envia para o formulário:
-    commentContent.value = document.querySelector(`#comment-${cmtId} .comment-content`).innerHTML;
+    // Obtém o comentário:
+    let cmtContent = document.querySelector(`#comment-${cmtId} .comment-content`).innerHTML;
+
+    // Remove os <br> do comentário e mostra no formulário:
+    commentContent.value = cmtContent.replace(/<br\s*[\/]?>/gi, "");
 
     // Foca no formulário de comentário:
     comment.focus();

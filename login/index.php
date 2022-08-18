@@ -170,6 +170,10 @@ HTML;
 
             endif;
 
+            // Atualiza banco de dados:
+            $sql = "UPDATE users SET user_last_login = NOW();";
+            $conn->query($sql);
+
             // Gera cookie do usuário, gravando dados em formato JSON:
             setcookie("{$site_name}_user", json_encode($ck), $ck_validate, '/');
 
@@ -211,7 +215,7 @@ require($_SERVER['DOCUMENT_ROOT'] . '/_header.php');
 echo "<article>{$page_article}</article>";
 
 // Exibe a barra lateral da página, mas só se ela não estiver vazia:
-if($page_aside != '') echo "<aside>{$page_aside}</aside>";
+if ($page_aside != '') echo "<aside>{$page_aside}</aside>";
 
 // Inclui o rodapé do template nesta página.
 require($_SERVER['DOCUMENT_ROOT'] . '/_footer.php');
