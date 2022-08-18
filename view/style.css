@@ -40,6 +40,28 @@ aside ul {
     line-height: 1.4;
 }
 
+/* Mensagens dos comentários: */
+
+.comment-ok, .comment-error {
+    padding: .5rem;
+    text-align: center;
+    border-radius: .3rem;
+    margin-bottom: 1rem;
+    font-size: small;
+}
+
+.comment-ok {
+    color: rgb(0, 37, 0);
+    background: rgb(157, 245, 157);
+}
+
+.comment-error {
+    color: rgb(63, 0, 0);
+    background: rgb(255, 164, 164);
+}
+
+/* Blocos de comentários. */
+
 .comment-item {
     background: rgba(255, 255, 255, 1);
     margin-bottom: 1rem;
@@ -52,6 +74,25 @@ aside ul {
     border-bottom: 1px dotted grey;
 }
 
-.comment-content {
+.comment-info {
+    display: flex;
+    align-items: center;
+}
+
+.comment-meta {
+    flex-grow: 1;
+}
+
+div.comment-content {
     padding: .5rem;
+}
+
+.comment-tools a {
+    display: block;
+    text-align: center;
+    font-size: small;
+}
+
+.comment-tools a:first-child {
+    margin-bottom: .2rem;
 }

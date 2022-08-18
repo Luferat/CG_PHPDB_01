@@ -128,147 +128,8 @@ $counter = intval($art['art_counter']) + 1;
 $sql = "UPDATE articles SET art_counter = '{$counter}' WHERE art_id = '{$id}';";
 $conn->query($sql);
 
-/***************
- * Comentários *
- ***************/
-
-// Define variáveis:
-$comments = '';
-
-// Se usuário está logado...
-if ($user) :
-
-    // Se um comentário foi enviado...
-    if ($_SERVER["REQUEST_METHOD"] == "POST") :
-
-        // Obtém e sanitiza comentário enviado:
-        $comment_content = post_clean('comment', 'string');
-
-        // Se o comentário está vazio...
-        if ($comment_content == '') :
-
-            // Exibe mensagem de erro:
-            $comments .= '<div class="comment-error">Nenhum comentário enviado!<br>Comentário em branco.</div>';
-
-        // Se o comentário está ok...
-        else :
-
-            // Pesquisa comentário no banco de dados:
-            $sql = <<<SQL
-
-SELECT cmt_id FROM comments 
-WHERE cmt_content = '{$comment_content}'
-    AND cmt_author = '{$user['id']}'
-    AND cmt_article = '{$id}'
-    AND cmt_status = 'on'
-
-SQL;
-            $res = $conn->query($sql);
-
-            // Se o comentário enviado já existe no banco de dados...
-            if ($res->num_rows == 1) :
-
-                // Exibe mensagem de erro:
-                $comments .= '<div class="comment-error">Nenhum comentário enviado!<br>Comentário já existe.</div>';
-
-            // Se o comentário não exite no banco de dados...
-            else :
-
-                // Salva comentário no banco de dados...
-                $sql = <<<SQL
-
-INSERT INTO comments (cmt_author, cmt_article, cmt_content)
-VALUES ('{$user['id']}', '{$id}', '{$comment_content}');
-
-SQL;
-                $conn->query($sql);
-
-                // Exibe mensagem de confirmação:
-                $comments .= '<div class="comment-ok">Comentário enviado com sucesso!</div>';
-
-            endif;
-
-        endif;
-
-    endif;
-
-    // Formulário de comentários
-    $comments .= <<<HTML
-
-<form action="/view/?{$id}#comments" method="post" id="comment">
-    <textarea name="comment" id="comment" required></textarea>
-    <button type="submit">Enviar</button>
-</form>
-
-<hr class="separator">
-
-HTML;
-
-// Se não está logado:
-else :
-
-    // Convite para logar-se e comentar:
-    $comments .= <<<HTML
-
-<p class="center"><a href="/login">Logue-se</a> para comentar.</p>
-<hr class="separator">
-
-HTML;
-
-endif;
-
-// Obtém todos os comentários para o artigo atual:
-$sql = <<<SQL
-
-SELECT
-    comments.*,
-    users.user_name,
-    DATE_FORMAT(cmt_date, '%d/%m/%Y às %h:%i') AS date_br
-FROM comments
-INNER JOIN users ON cmt_author = user_id
-WHERE cmt_article = '{$id}'
-    AND cmt_status = 'on'
-ORDER BY cmt_date DESC;
-
-SQL;
-$res = $conn->query($sql);
-
-// Conta os comentários:
-$total_comments = $res->num_rows;
-
-// Se não tem comentários...
-if ($total_comments < 1) :
-
-    // Exibe convite para comentar:
-    $comments .= '<p class="center">Nenhum comentário encontrado. Seja a(o) primeira(o) a comentar!</p>';
-
-// Se tem comentários...
-else :
-
-    // Loop para extrair cada comentário:
-    while ($cmt = $res->fetch_assoc()) :
-
-        // Trata comentário, quebrando linhas de forma correta:
-        $cmt_body = nl2br($cmt['cmt_content']);
-
-        // Formata comentário:
-        $comments .= <<<HTML
-
-<div class="comment-item">
-
-    <div class="comment-info">
-        Por {$cmt['user_name']}.<br>
-        Em ${cmt['date_br']}.
-    </div>
-    <div class="comment-content">{$cmt_body}</div>
-
-</div>
-
-HTML;
-
-    endwhile;
-
-endif;
+// Insere script de comentários:
+require('comments.php');
 
 // Exibe comentários prontos na página:
 $page_article .= <<<HTML
@@ -291,7 +152,7 @@ require($_SERVER['DOCUMENT_ROOT'] . '/_header.php');
 echo "<article>{$page_article}</article>";
 
 // Exibe a barra lateral da página, mas só se ela não estiver vazia:
-if($page_aside != '') echo "<aside>{$page_aside}</aside>";
+if ($page_aside != '') echo "<aside>{$page_aside}</aside>";
 
 // Inclui o rodapé do template nesta página.
 require($_SERVER['DOCUMENT_ROOT'] . '/_footer.php');
